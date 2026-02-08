@@ -1,41 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_flutter_aapp/student/requests/home.dart';
 
 
-class StudentHomePage extends StatelessWidget {
-  const StudentHomePage({super.key});
+class StudentHomePage extends StatefulWidget{
+  final Future<void> Function() refreshHeader;
+
+  const StudentHomePage({
+    super.key,
+    required this.refreshHeader,
+  });
+
+  @override
+  State<StudentHomePage> createState() => _StudentHomePageState();
+}
+
+class _StudentHomePageState extends State<StudentHomePage> {
+  bool _loading = true;
+  String? fullName;
+  /// Attendance Related States
+  int _presentAttendance = 0;
+  int _absentAttendance = 0;
+  int _attendanceRate = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserFullName();
+    _setAttendanceStatistics();
+  }
+
+  Future<void> _loadUserFullName() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() { fullName = prefs.getString("full_name"); });
+  }
+
+  Future<void> _setAttendanceStatistics() async {
+    final response = await HomeRequestsService().getAttendanceStatistics();
+    if (!mounted) {return;}
+    setState(() {
+      _presentAttendance = response["present_attendance_count"];
+      _absentAttendance = response["absent_attendance_count"];
+      _attendanceRate = (response["rate_attendance_count"] as num).round();
+    });
+  }
+
+  /// ------------------------ ON REFRESH ------------------------ //
+  Future<void> _onRefresh() async {
+    await widget.refreshHeader();
+    await _setAttendanceStatistics();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          _WelcomeSection(),
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      displacement: 40,
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(16),
+        children: [
+          _WelcomeSection(fullName: fullName,),
           SizedBox(height: 20),
-          _AttendanceCard(),
+          _AttendanceCard(
+            presentAttendance: _presentAttendance,
+            absentAttendance: _absentAttendance,
+            attendanceRate: _attendanceRate,
+          ),
         ],
-      ),
+      )
     );
   }
 }
 
 
 class _WelcomeSection extends StatelessWidget {
-  const _WelcomeSection();
+  final String? fullName;
+
+  const _WelcomeSection({super.key, this.fullName,});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
           "Xush kelibsiz!",
           style: TextStyle(color: Colors.black54),
         ),
         SizedBox(height: 4),
         Text(
-          "Umrbek Madatov",
+          fullName ?? "",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -48,7 +104,16 @@ class _WelcomeSection extends StatelessWidget {
 
 
 class _AttendanceCard extends StatelessWidget {
-  const _AttendanceCard();
+  final int presentAttendance;
+  final int absentAttendance;
+  final int attendanceRate;
+
+
+  const _AttendanceCard({
+    required this.presentAttendance,
+    required this.absentAttendance,
+    required this.attendanceRate,    
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -77,25 +142,25 @@ class _AttendanceCard extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               _StatItem(
                 icon: Icons.check_circle,
                 iconColor: Colors.green,
-                value: "4",
+                value: presentAttendance.toString(),
                 label: "Kelgan",
                 bgColor: Color(0xFFE8F5E9),
               ),
               _StatItem(
                 icon: Icons.cancel,
                 iconColor: Colors.red,
-                value: "1",
+                value: absentAttendance.toString(),
                 label: "Kelmagan",
                 bgColor: Color(0xFFFFEBEE),
               ),
               _StatItem(
                 icon: Icons.trending_up,
                 iconColor: Color(0xFF8A2BE2),
-                value: "80%",
+                value: "$attendanceRate%",
                 label: "Umumiy",
                 bgColor: Color(0xFFEDE7F6),
               ),

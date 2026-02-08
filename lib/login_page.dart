@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_flutter_aapp/parent/main.dart';
+import 'package:test_flutter_aapp/core/services/auth_service.dart';
 import 'package:test_flutter_aapp/student/main.dart';
 import 'package:test_flutter_aapp/teacher/main.dart';
 
@@ -59,8 +56,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
   Future<void> _login() async {
-    if (_usernameController.text.isEmpty ||
-        _passwordController.text.isEmpty) {
+    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
       _showError("Username va parolni kiriting");
       return;
     }
@@ -68,30 +64,13 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _loading = true);
 
     try {
-      final response = await http.post(
-        Uri.parse("https://lccrm.uz/api/v1/auth/login/"),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "username": _usernameController.text.trim(),
-          "password": _passwordController.text,
-        }),
+      final role = await AuthService.login(
+        _usernameController.text.trim(),
+        _passwordController.text,
       );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        // Save tokens
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString("access", data["access"]);
-        await prefs.setString("refresh", data["refresh"]);
-        await prefs.setString("role", data["role"]);
-
-        _navigateByRole(data["role"]);
-      } else {
-        _showError("Login yoki parol xato");
-      }
+      _navigateByRole(role);
     } catch (e) {
-      _showError("Server bilan bog‘lanib bo‘lmadi");
+      _showError("Server bilan bog‘lanib bo‘lmadi $e");
     } finally {
       setState(() => _loading = false);
     }
@@ -100,9 +79,7 @@ class _LoginPageState extends State<LoginPage> {
 
   ///
   /// ----------------------------------------------------------------------
-
-
-
+  /// Login
   @override
   Widget build(BuildContext context) {
     return Scaffold(
