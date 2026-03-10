@@ -15,8 +15,8 @@ class StudentHomePage extends StatefulWidget{
   State<StudentHomePage> createState() => _StudentHomePageState();
 }
 
-class _StudentHomePageState extends State<StudentHomePage> {
-  bool _loading = true;
+class _StudentHomePageState extends State<StudentHomePage>
+    with WidgetsBindingObserver {
   String? fullName;
   /// Attendance Related States
   int _presentAttendance = 0;

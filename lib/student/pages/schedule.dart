@@ -12,7 +12,7 @@ class StudentSchedulePage extends StatefulWidget {
 class _StudentSchedulePageState extends State<StudentSchedulePage> {
   DateTime _selectedDate = DateTime.now();
   Map<String, List<dynamic>> _scheduleByDate = {};
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -22,24 +22,31 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
 
   Future<void> _setScheduleData() async {
     setState(() => _isLoading = true);
-    final response = await ScheduleRequestsService().getStudentWeeklySchedule();
 
-    if (!mounted) return;
+    try {
+      final response =
+      await ScheduleRequestsService().getStudentWeeklySchedule();
 
-    if (response is List) {
-      final Map<String, List<dynamic>> grouped = {};
-      for (var lesson in response) {
-        final dateKey = lesson["lesson_date"];
-        if (grouped[dateKey] == null) {
-          grouped[dateKey] = [];
+      if (!mounted) return;
+
+      if (response is List) {
+        final Map<String, List<dynamic>> grouped = {};
+
+        for (var lesson in response) {
+          final dateKey = lesson["lesson_date"];
+          grouped.putIfAbsent(dateKey, () => []);
+          grouped[dateKey]!.add(lesson);
         }
-        grouped[dateKey]!.add(lesson);
+
+        setState(() {
+          _scheduleByDate = grouped;
+          _isLoading = false;
+        });
+      } else {
+        setState(() => _isLoading = false);
       }
-      setState(() {
-        _scheduleByDate = grouped;
-        _isLoading = false;
-      });
-    } else {
+    } catch (e) {
+      if (!mounted) return;
       setState(() => _isLoading = false);
     }
   }
@@ -57,7 +64,7 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: _onRefresh,
-            child: _isLoading 
+            child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _buildScheduleList(),
           ),

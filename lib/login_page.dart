@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
         page = const ParentHomePage();
         break;
       case "teacher":
-        page = const TeacherHomePage();
+        page = const TeacherMainPage();
         break;
       default:
         _showError("Nomaʼlum rol");

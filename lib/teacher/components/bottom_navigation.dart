@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../common/components/nav_item.dart';
 
-class StudentBottomNavigation extends StatelessWidget {
+class TeacherBottomNavigation extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const StudentBottomNavigation({
+  const TeacherBottomNavigation({
     super.key,
     required this.currentIndex,
     required this.onTap,
@@ -24,9 +24,18 @@ class StudentBottomNavigation extends StatelessWidget {
         child: Row(
           children: [
             Expanded(child: NavItem(
-                icon: Icons.home,
-                label: "Asosiy",
-                index: 0,
+              icon: Icons.home,
+              label: "Asosiy",
+              index: 0,
+              currentIndex: currentIndex,
+              onTap: onTap,
+            ),
+            ),
+
+            Expanded(child: NavItem(
+                icon: Icons.people,
+                label: "Guruhlar",
+                index: 1,
                 currentIndex: currentIndex,
                 onTap: onTap,
               ),
@@ -35,7 +44,7 @@ class StudentBottomNavigation extends StatelessWidget {
             Expanded(child: NavItem(
                 icon: Icons.calendar_month,
                 label: "Jadval",
-                index: 1,
+                index: 2,
                 currentIndex: currentIndex,
                 onTap: onTap,
               ),
@@ -44,21 +53,12 @@ class StudentBottomNavigation extends StatelessWidget {
             const SizedBox(width: 56),
 
             Expanded(child: NavItem(
-                icon: Icons.menu_book,
-                label: "Kurslar",
-                index: 2,
-                currentIndex: currentIndex,
-                onTap: onTap,
-              ),
+              icon: Icons.person,
+              label: "Profil",
+              index: 3,
+              currentIndex: currentIndex,
+              onTap: onTap,
             ),
-
-            Expanded(child: NavItem(
-                icon: Icons.star_border,
-                label: "Reytinglar",
-                index: 3,
-                currentIndex: currentIndex,
-                onTap: onTap,
-              ),
             ),
           ],
         ),
@@ -66,9 +66,3 @@ class StudentBottomNavigation extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

@@ -1,12 +1,53 @@
 import 'package:flutter/material.dart';
 
-class TeacherHomePage extends StatelessWidget {
-  const TeacherHomePage({super.key});
+import 'package:test_flutter_aapp/teacher/components/layout.dart';
+import 'package:test_flutter_aapp/teacher/pages/groups/groups.dart';
+import 'package:test_flutter_aapp/teacher/pages/home/home.dart';
+import 'package:test_flutter_aapp/teacher/pages/profile/profile.dart';
+import 'package:test_flutter_aapp/teacher/pages/schedule/schedule.dart';
+
+class TeacherMainPage extends StatefulWidget {
+  const TeacherMainPage({super.key});
+
+  @override
+  State<TeacherMainPage> createState() => _TeacherMainPageState();
+}
+
+class _TeacherMainPageState extends State<TeacherMainPage> {
+  int _currentIndex = 0;
+
+  late final List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pages = [
+      const Home(),
+      const Groups(),
+      const Schedule(),
+      const Profile(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Teacher Home")),
+    return TeacherPageLayout(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
+      ),
+
+      // On tab changed
+      currentIndex: _currentIndex,
+      onTabChanged: (index) {
+        if (_currentIndex == index) return;
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      notificationCount: 1000,
     );
   }
 }
+

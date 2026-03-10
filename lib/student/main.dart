@@ -18,17 +18,19 @@ class _StudentMainPageState extends State<StudentMainPage> {
   int _coinCount = 0;
   int _notificationCount = 0;
 
-  late final List<Widget> _pages = [
-    StudentHomePage(refreshHeader: _loadHeaderData),
-    const StudentSchedulePage(),
-    const StudentCoursesPage(),
-    const StudentRatingsPage(),
-  ];
+  late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
     _loadHeaderData();
+
+    _pages = [
+      StudentHomePage(refreshHeader: _loadHeaderData),
+      const StudentSchedulePage(),
+      const StudentCoursesPage(),
+      const StudentRatingsPage(),
+    ];
   }
 
   Future<void> _loadHeaderData() async {

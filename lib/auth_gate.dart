@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_flutter_aapp/parent/main.dart';
-import 'package:test_flutter_aapp/core/services/auth_service.dart';
 import 'package:test_flutter_aapp/student/main.dart';
 import 'package:test_flutter_aapp/teacher/main.dart';
 
@@ -53,7 +50,7 @@ class _AuthGateState extends State<AuthGate> {
         page = const ParentHomePage();
         break;
       case "teacher":
-        page = const TeacherHomePage();
+        page = const TeacherMainPage();
         break;
       default:
         page = const LoginPage();
