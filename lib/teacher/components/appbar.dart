@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../common/components/btn_notification.dart';
-import '../pages/notifications/notifications.dart';
+import '../pages/notifications/notifications_page.dart';
 
 
 class TeacherAppBar extends StatelessWidget
@@ -30,7 +30,7 @@ class TeacherAppBar extends StatelessWidget
       title: SizedBox(
         width: 100, // 👈 fixed width (adjust as needed)
         child: const Text(
-          "Inter Nation",
+          "LC CRM",
           maxLines: 2,              // 👈 allow wrapping
           softWrap: true,
           overflow: TextOverflow.visible,
@@ -45,7 +45,7 @@ class TeacherAppBar extends StatelessWidget
       actions: [
         BtnNotification(
           notificationCount: notificationCount,
-          page: const Notifications(),
+          page: const NotificationsPage(),
         ),
         SizedBox(width: 2),
       ],

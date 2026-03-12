@@ -9,48 +9,6 @@ import '../configs/main_config.dart';
 
 
 class AuthService {
-  // Login
-  static Future<String> login(String username, String password) async {
-    final response = await http.post(
-      Uri.parse("$apiV1BaseUrl/auth/login/"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(
-        {
-          "username": username,
-          "password": password,
-        }
-      ),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception("Invalid credentials");
-    }
-
-    final data = jsonDecode(response.body);
-
-    final prefs = await SharedPreferences.getInstance();
-
-    prefs.setString(
-        "tokenAccessedTime",
-        DateTime.now().toIso8601String()
-    );
-
-    for (final entry in data.entries) {
-      final key = entry.key;
-      final value = entry.value;
-
-      if (value is String) {
-        await prefs.setString(key, value);
-      } else if (value is int) {
-        await prefs.setInt(key, value);
-      } else if (value is bool) {
-        await prefs.setBool(key, value);
-      }
-    }
-
-    return data["role"];
-  }
-
   static Future<String?> getValidatedAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
 

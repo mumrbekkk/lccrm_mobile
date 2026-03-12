@@ -1,31 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:test_flutter_aapp/common/requests/main.dart';
 
-import '../../core/configs/main_config.dart';
-import '../../core/services/auth_service.dart';
+import '../../common/configs/endpoints.dart';
+import '../../common/configs/main_config.dart';
+import '../../common/services/auth_service.dart';
 
 
 class CourseDetailService {
   Future<dynamic> getCourseDetail(int groupId) async {
-    final token = await AuthService.getAccessToken();
-
-    final response = await http.get(
-      Uri.parse("$apiV1BaseUrl/students/group-details/$groupId/"),
-      headers: {
-        "Authorization": "Bearer $token",
-        "Content-Type": "application/json",
-      },
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception("Failed to load course detail");
-    }
-
-    final data = jsonDecode(response.body);
-    return data;
+    return await MainRequestService.get("$getStudentCourseDetailsEndpoint$groupId/");
   }
-
 }
 
 

@@ -32,7 +32,7 @@ class StudentTopNavigation extends StatelessWidget
       title: SizedBox(
         width: 100, // 👈 fixed width (adjust as needed)
         child: const Text(
-          "Inter Nation",
+          "LC CRM",
           maxLines: 2,              // 👈 allow wrapping
           softWrap: true,
           overflow: TextOverflow.visible,

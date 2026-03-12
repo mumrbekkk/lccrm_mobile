@@ -41,6 +41,8 @@ class TeacherBottomNavigation extends StatelessWidget {
               ),
             ),
 
+            const SizedBox(width: 56),
+
             Expanded(child: NavItem(
                 icon: Icons.calendar_month,
                 label: "Jadval",
@@ -49,8 +51,6 @@ class TeacherBottomNavigation extends StatelessWidget {
                 onTap: onTap,
               ),
             ),
-
-            const SizedBox(width: 56),
 
             Expanded(child: NavItem(
               icon: Icons.person,

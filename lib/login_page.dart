@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:test_flutter_aapp/common/services/auth_service2.dart';
 import 'package:test_flutter_aapp/parent/main.dart';
-import 'package:test_flutter_aapp/core/services/auth_service.dart';
+import 'package:test_flutter_aapp/common/services/auth_service.dart';
 import 'package:test_flutter_aapp/student/main.dart';
 import 'package:test_flutter_aapp/teacher/main.dart';
 
@@ -64,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _loading = true);
 
     try {
-      final role = await AuthService.login(
+      final role = await AuthService2.login(
         _usernameController.text.trim(),
         _passwordController.text,
       );
