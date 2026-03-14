@@ -28,7 +28,7 @@ class BtnNotification extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             const Icon(Icons.notifications_none, size: 25),
-            Positioned(
+            if (notificationCount > 0) Positioned(
               right: 0,
               top: -4,
               child: Container(

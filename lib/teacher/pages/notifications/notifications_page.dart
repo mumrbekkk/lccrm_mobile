@@ -5,14 +5,14 @@ import 'package:test_flutter_aapp/teacher/pages/notifications/widgets/notificati
 
 import '../../../common/requests/auth_requests.dart';
 
-class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({super.key});
+class TeacherNotificationsPage extends StatefulWidget {
+  const TeacherNotificationsPage({super.key});
 
   @override
-  State<NotificationsPage> createState() => _NotificationsPageState();
+  State<TeacherNotificationsPage> createState() => _TeacherNotificationsPageState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> {
+class _TeacherNotificationsPageState extends State<TeacherNotificationsPage> {
   List<dynamic> _notifications = [];
   int _unreadNotificationsCount = 0;
 

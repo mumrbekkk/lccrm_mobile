@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:test_flutter_aapp/teacher/components/layout.dart';
-import 'package:test_flutter_aapp/teacher/pages/groups/groups.dart';
-import 'package:test_flutter_aapp/teacher/pages/home/home.dart';
+import 'package:test_flutter_aapp/teacher/pages/groups/groups_page.dart';
+import 'package:test_flutter_aapp/teacher/pages/home/home_page.dart';
 import 'package:test_flutter_aapp/teacher/pages/profile/profile_page.dart';
-import 'package:test_flutter_aapp/teacher/pages/schedule/schedule.dart';
+import 'package:test_flutter_aapp/teacher/pages/schedule/schedule_page.dart';
 
 import '../common/requests/auth_requests.dart';
 
@@ -26,9 +26,9 @@ class _TeacherMainPageState extends State<TeacherMainPage> {
     super.initState();
 
     _pages = [
-      const Home(),
-      const Groups(),
-      const Schedule(),
+      const HomePage(),
+      const GroupsPage(),
+      const SchedulePage(),
       const ProfilePage(),
     ];
 

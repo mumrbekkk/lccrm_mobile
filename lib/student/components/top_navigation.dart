@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../common/components/btn_notification.dart';
 import '../pages/coin_history.dart';
 import '../pages/notifications.dart';
 import '../pages/profile.dart';
@@ -47,7 +48,10 @@ class StudentTopNavigation extends StatelessWidget
       actions: [
         _Coins(coinCount: coinCount,),
         SizedBox(width: 2),
-        _Notifications(notificationCount: notificationCount,),
+        BtnNotification(
+          notificationCount: notificationCount,
+          page: const StudentNotificationsPage(),
+        ),
         SizedBox(width: 2),
         _Profile(),
         SizedBox(width: 8),

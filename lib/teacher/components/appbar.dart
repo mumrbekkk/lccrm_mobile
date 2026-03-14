@@ -45,7 +45,7 @@ class TeacherAppBar extends StatelessWidget
       actions: [
         BtnNotification(
           notificationCount: notificationCount,
-          page: const NotificationsPage(),
+          page: const TeacherNotificationsPage(),
         ),
         SizedBox(width: 2),
       ],
